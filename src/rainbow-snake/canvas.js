@@ -1,4 +1,9 @@
+import { noise } from '../../node_modules/@chriscourses/perlin-noise/index.js'
 import { randomIntFromRange, randomColor, distance } from './utils.js'
+
+console.log(noise(10))
+
+console.log('test')
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -27,7 +32,7 @@ addEventListener('resize', () => {
 })
 
 // Objects
-class Object {
+class Circle {
   constructor(x, y, radius, color) {
     this.x = x
     this.y = y
@@ -49,9 +54,10 @@ class Object {
 }
 
 // Implementation
-let objects
+let circles
+const circle = new Circle(canvas.width / 2, canvas.height / 2, 10, 'blue')
 function init() {
-  objects = []
+  circles = []
 
   for (let i = 0; i < 400; i++) {
     // objects.push()
@@ -63,7 +69,6 @@ function animate() {
   requestAnimationFrame(animate)
   c.clearRect(0, 0, canvas.width, canvas.height)
 
-  c.fillText('HTML CANVAS BOILERPLATE', mouse.x, mouse.y)
   // objects.forEach(object => {
   //  object.update()
   // })

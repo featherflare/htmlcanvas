@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
+  "type": "module",
   "scripts": {
     "dev": "webpack --config webpack.config.js",
     "start": "webpack --config webpack.config.js",
@@ -11,7 +12,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "@chriscourses/perlin-noise": "^1.0.5",
+    "dat.gui": "^0.7.9"
+  },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
