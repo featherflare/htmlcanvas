@@ -33,11 +33,12 @@ addEventListener('resize', () => {
 
 // Objects
 class Circle {
-  constructor(x, y, radius, color) {
+  constructor(x, y, radius, color, offset) {
     this.x = x
     this.y = y
     this.radius = radius
     this.color = color
+    this.offset = offset
   }
 
   draw() {
@@ -50,28 +51,37 @@ class Circle {
 
   update() {
     this.draw()
+    this.x = noise(time + this.offset + 20) * canvas.width
+    this.y = noise(time + this.offset) * canvas.height
   }
 }
 
 // Implementation
 let circles
-const circle = new Circle(canvas.width / 2, canvas.height / 2, 10, 'blue')
 function init() {
   circles = []
-
-  for (let i = 0; i < 400; i++) {
-    // objects.push()
+  for (let i = 0; i < 100; i++) {
+    circles.push(
+      new Circle(-30, -30, 10, `hsl(${Math.random() * 255},100%,50%)`, i * 0.01)
+    )
   }
 }
+
+let time = 0
 
 // Animation Loop
 function animate() {
   requestAnimationFrame(animate)
-  c.clearRect(0, 0, canvas.width, canvas.height)
+  c.fillStyle = 'rgba(0,0,0,0.01'
+  c.fillRect(0, 0, canvas.width, canvas.height)
 
-  // objects.forEach(object => {
-  //  object.update()
-  // })
+  // circle.draw()
+  // console.log(circle.y)
+
+  circles.forEach((circle) => {
+    circle.update()
+  })
+  time += 0.005
 }
 
 init()
