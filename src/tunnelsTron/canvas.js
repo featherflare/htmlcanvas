@@ -28,11 +28,13 @@ addEventListener('resize', () => {
 
 // Objects
 class Particle {
-  constructor(x, y, radius, color) {
+  constructor(x, y, radius, color, velocity) {
     this.x = x
     this.y = y
     this.radius = radius
     this.color = color
+    this.velocity = velocity
+    this.ttl = 1000
   }
 
   draw() {
@@ -45,6 +47,9 @@ class Particle {
 
   update() {
     this.draw()
+    this.x += this.velocity.x
+    this.y += this.velocity.y
+    this.ttl--
   }
 }
 
@@ -52,21 +57,47 @@ class Particle {
 let particles
 function init() {
   particles = []
+}
 
-  for (let i = 0; i < 400; i++) {
-    // particles.push()
+let hue = 0
+let hueRadians = 0
+function generateRing() {
+  setTimeout(generateRing, 200)
+
+  const particlesCount = 100
+  hue = Math.sin(hueRadians)
+
+  for (let i = 0; i < particlesCount; i++) {
+    const radian = (2 * Math.PI) / particlesCount
+
+    const x = mouse.x
+    const y = mouse.y
+
+    particles.push(
+      new Particle(x, y, 5, `hsl(${Math.abs(hue * 360)},50%,50%)`, {
+        x: Math.cos(radian * i),
+        y: Math.sin(radian * i),
+      })
+    )
   }
+  hueRadians += 0.01
 }
 
 // Animation Loop
 function animate() {
   requestAnimationFrame(animate)
-  c.clearRect(0, 0, canvas.width, canvas.height)
+  c.fillStyle = 'rgba(0,0,0,0.1)'
+  c.fillRect(0, 0, canvas.width, canvas.height)
 
-  // particles.forEach(particle => {
-  //  particle.update()
-  // })
+  particles.forEach((particle, i) => {
+    if (particle.ttl < 0) {
+      particles.splice(i, 1)
+    } else {
+      particle.update()
+    }
+  })
 }
 
 init()
 animate()
+generateRing()
